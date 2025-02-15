@@ -2,16 +2,27 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../features/tasksSlice";
 import { auth } from "../services/firebase"; // Import Firebase auth
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const TaskForm = () => {
   const [taskName, setTaskName] = useState("");
+  const [dueDate, setDueDate] = useState(null);
   const dispatch = useDispatch();
   const user = auth.currentUser;
 
   const handleAddTask = () => {
     if (!taskName.trim() || !user) return;
-    dispatch(addTask({ name: taskName, status: "To Do", userId: user.uid }));
-    setTaskName("");
+    dispatch(
+        addTask({
+          name: taskName,
+          dueDate: dueDate || null, // Ensure null is passed if no date is selected
+          status: "To Do",
+          userId: user.uid,
+        })
+      );
+          setTaskName("");
+          setDueDate("");
   };
 
   return (
@@ -22,6 +33,12 @@ const TaskForm = () => {
         placeholder="Enter task..."
         value={taskName}
         onChange={(e) => setTaskName(e.target.value)}
+      />
+      <DatePicker
+        selected={dueDate}
+        onChange={(date) => setDueDate(date)}
+        placeholderText="Select due date"
+        className="border p-2"
       />
       <button
         onClick={handleAddTask}
