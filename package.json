@@ -2,7 +2,7 @@
   "name": "my-portfolio",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://charan819.github.io/task-manager-app",
+  "homepage": ".",
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
     "cra-template": "1.2.0",

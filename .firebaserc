@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "task-manager-app-25"
-  }
+    "default": "task-manager-app-25-2f8aa",
+    "task-managerrr": "task-manager-app-25-2f8aa"
+  },
+  "targets": {},
+  "etags": {}
 }

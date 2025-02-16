@@ -39,7 +39,7 @@ const KanbanBoard = () => {
       <div className="flex justify-end p-2">
         {/* ✅ Sorting Options (Inside Task Board) */}
         <select
-          className="p-2 bg-gray-00 rounded"
+          className="p-2 bg-gray-500 text-white rounded"
           value={sortBy}
           onChange={(e) => dispatch(setSortBy(e.target.value))}
         >
