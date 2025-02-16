@@ -10,16 +10,17 @@ const TaskEditModal = ({ isOpen, onClose }) => {
 
   const [editedTasks, setEditedTasks] = useState([]);
 
-  // ✅ Load selected tasks into local state when modal opens
   useEffect(() => {
     if (isOpen && selectedTasks.length > 0) {
-      setEditedTasks(selectedTasks.map((task) => ({
-        id: task.id,
-        name: task.name || "", // Ensure no undefined values
-        dueDate: task.dueDate ? task.dueDate.split("T")[0] : "", // Format ISO date
-      })));
+      setEditedTasks(
+        selectedTasks.map((task) => ({
+          id: task.id,
+          name: task.name || "",
+          dueDate: task.dueDate ? task.dueDate.split("T")[0] : "",
+        }))
+      );
     }
-  }, [isOpen,JSON.stringify(selectedTasks)]); // ✅ Only runs when the modal opens
+  }, [isOpen, JSON.stringify("selectedTasks")]); // ✅ Fixed dependency array
   
 
   // ✅ Handle Input Change
@@ -30,11 +31,9 @@ const TaskEditModal = ({ isOpen, onClose }) => {
       )
     );
   };
-  
 
   // ✅ Save Edited Tasks
   const handleSave = () => {
-    console.log("Saving tasks:", editedTasks); // Debugging Log
     editedTasks.forEach((task) => {
       dispatch(editTask({ id: task.id, name: task.name, dueDate: task.dueDate }));
     });
@@ -45,13 +44,14 @@ const TaskEditModal = ({ isOpen, onClose }) => {
   if (!isOpen || selectedTasks.length === 0) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-gray-800 p-5 rounded w-96 shadow-lg">
-        <h2 className="text-lg font-bold text-white mb-4">✏ Edit Tasks</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-2">
+      <div className="bg-gray-800 p-5 rounded w-full sm:w-96 shadow-lg">
+        <h2 className="text-lg font-bold text-white mb-4 text-center sm:text-left">✏ Edit Tasks</h2>
 
         {editedTasks.length > 0 ? (
           editedTasks.map((task, index) => (
             <div key={task.id} className="mb-4">
+              {/* ✅ Task Name Input */}
               <label className="block text-gray-300 text-sm mb-1">Task Name</label>
               <input
                 type="text"
@@ -60,6 +60,8 @@ const TaskEditModal = ({ isOpen, onClose }) => {
                 className="p-2 w-full rounded text-black"
                 placeholder="Task Name"
               />
+
+              {/* ✅ Due Date Input */}
               <label className="block text-gray-300 text-sm mt-2 mb-1">Due Date</label>
               <input
                 type="date"
@@ -70,19 +72,19 @@ const TaskEditModal = ({ isOpen, onClose }) => {
             </div>
           ))
         ) : (
-          <p className="text-gray-300">No tasks selected for editing.</p>
+          <p className="text-gray-300 text-center">No tasks selected for editing.</p>
         )}
 
-        <div className="flex justify-end gap-2 mt-4">
+        <div className="flex flex-col sm:flex-row justify-end gap-2 mt-4">
           <button
             onClick={onClose}
-            className="bg-gray-500 px-4 py-2 rounded hover:bg-gray-600 transition text-white"
+            className="bg-gray-500 px-4 py-2 rounded hover:bg-gray-600 transition text-white w-full sm:w-auto"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 transition text-white"
+            className="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 transition text-white w-full sm:w-auto"
           >
             Save Changes
           </button>

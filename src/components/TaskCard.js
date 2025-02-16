@@ -6,6 +6,7 @@ import { toggleTaskSelection } from "../features/tasksSlice";
 
 const TaskCard = ({ task }) => {
   const dispatch = useDispatch();
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "TASK",
     item: { id: task.id },
@@ -13,6 +14,11 @@ const TaskCard = ({ task }) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
+
+  // ✅ Prevent errors when task is undefined
+  if (!task || !task.id) {
+    return null; // Prevents rendering if task is missing
+  }
 
   const today = new Date().setHours(0, 0, 0, 0);
   const taskDueDate = task.dueDate ? new Date(task.dueDate).setHours(0, 0, 0, 0) : null;
@@ -29,7 +35,7 @@ const TaskCard = ({ task }) => {
       bgColor = "bg-yellow-500";
       textColor = "text-black font-bold";
     } else {
-      bgColor = "bg-green-500";
+      bgColor = "bg-purple-500";
     }
   }
 
@@ -83,18 +89,21 @@ const TaskCard = ({ task }) => {
   return (
     <div
       ref={drag}
-      className={`p-3 m-2 rounded cursor-pointer font-semibold ${bgColor} ${textColor} 
-        ${isDragging ? "opacity-50" : "opacity-100"}`}
+      className={`w-full sm:w-auto p-3 m-2 rounded cursor-pointer font-semibold text-sm sm:text-base ${bgColor} ${textColor} 
+        ${isDragging ? "opacity-50" : "opacity-100 "} flex flex-col gap-2`}
     >
-      <input
-        type="checkbox"
-        checked={task.isSelected || false}
-        onChange={handleSelect}
-        className="mr-2"
-      />
-      <p>{task.name}</p>
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          checked={task.isSelected || false}
+          onChange={handleSelect}
+          className="mr-2"
+        />
+        <p className="truncate max-w-[80%] sm:max-w-full">{task.name}</p>
+      </div>
+
       {task.dueDate && (
-        <p className="text-sm">
+        <p className="text-xs sm:text-sm">
           Due:{" "}
           <span className={isOverdue ? "font-bold underline decoration-white" : ""}>
             {new Date(task.dueDate).toLocaleDateString()}

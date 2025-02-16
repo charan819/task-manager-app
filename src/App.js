@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./services/firebase";
 import Login from "./pages/Login";
 import KanbanBoard from "./components/KanbanBoard";
+import About from "./pages/About"; // ✅ Import About Page
 import Navbar from "./components/Navbar";
 
 const App = () => {

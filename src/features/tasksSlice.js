@@ -8,17 +8,21 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   if (!user) return [];
   const q = query(collection(db, "tasks"), where("userId", "==", user.uid));
   const querySnapshot = await getDocs(q);
-  return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data(), isSelected: false }));
+  return querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+    isSelected: false,
+  }));
 });
 
 // ✅ Update Task Status
 export const updateTaskStatus = createAsyncThunk("tasks/updateTaskStatus", async ({ id, status }) => {
-    const taskRef = doc(db, "tasks", id);
-    await updateDoc(taskRef, { status });
-    return { id, status };
-  });
-  
-// ✅ Add New Task
+  const taskRef = doc(db, "tasks", id);
+  await updateDoc(taskRef, { status });
+  return { id, status };
+});
+
+// ✅ Add New Task (without priority)
 export const addTask = createAsyncThunk("tasks/addTask", async ({ name, dueDate }) => {
   const user = auth.currentUser;
   if (!user) throw new Error("No user logged in");
@@ -32,10 +36,13 @@ export const addTask = createAsyncThunk("tasks/addTask", async ({ name, dueDate 
   return { id: docRef.id, ...newTask };
 });
 
-// ✅ Edit Task
+// ✅ Edit Task (without priority)
 export const editTask = createAsyncThunk("tasks/editTask", async ({ id, name, dueDate }) => {
   const taskRef = doc(db, "tasks", id);
-  await updateDoc(taskRef, { name, dueDate: dueDate ? new Date(dueDate).toISOString() : null });
+  await updateDoc(taskRef, {
+    name,
+    dueDate: dueDate ? new Date(dueDate).toISOString() : null,
+  });
   return { id, name, dueDate: dueDate ? new Date(dueDate).toISOString() : null };
 });
 
@@ -51,11 +58,19 @@ export const deleteSelectedTasks = createAsyncThunk("tasks/deleteSelectedTasks",
 
 const tasksSlice = createSlice({
   name: "tasks",
-  initialState: { tasks: [], loading: false },
+  initialState: { tasks: [], loading: false, sortBy: "dueDate", sortOrder: "asc" },
   reducers: {
     toggleTaskSelection: (state, action) => {
       const task = state.tasks.find((task) => task.id === action.payload);
       if (task) task.isSelected = !task.isSelected;
+    },
+
+    // ✅ Sorting Logic (only name & dueDate)
+    setSortBy: (state, action) => {
+      state.sortBy = action.payload;
+    },
+    toggleSortOrder: (state) => {
+      state.sortOrder = state.sortOrder === "asc" ? "desc" : "asc";
     },
   },
   extraReducers: (builder) => {
@@ -82,12 +97,13 @@ const tasksSlice = createSlice({
       .addCase(updateTaskStatus.fulfilled, (state, action) => {
         const task = state.tasks.find((task) => task.id === action.payload.id);
         if (task) task.status = action.payload.status;
-      })      
+      })
       .addCase(deleteSelectedTasks.fulfilled, (state, action) => {
         state.tasks = state.tasks.filter((task) => !action.payload.includes(task.id));
       });
   },
 });
 
-export const { toggleTaskSelection } = tasksSlice.actions;
+// ✅ Export all necessary actions
+export const { toggleTaskSelection, setSortBy, toggleSortOrder } = tasksSlice.actions;
 export default tasksSlice.reducer;
