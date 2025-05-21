@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.css": "/task-manager-app/static/css/main.07cf1846.css",
-    "main.js": "/task-manager-app/static/js/main.6b0d67d2.js",
-    "index.html": "/task-manager-app/index.html"
+    "main.css": "./static/css/main.4383eb38.css",
+    "main.js": "./static/js/main.ad5f8e22.js",
+    "index.html": "./index.html"
   },
   "entrypoints": [
-    "static/css/main.07cf1846.css",
-    "static/js/main.6b0d67d2.js"
+    "static/css/main.4383eb38.css",
+    "static/js/main.ad5f8e22.js"
   ]
 }
