@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTasks, setSortBy, toggleSortOrder } from "../features/tasksSlice"; // ✅ Sorting actions
+import { fetchTasks, setSortBy, toggleSortOrder } from "../features/tasksSlice";
 import TaskForm from "./TaskForm";
 import Column from "./Column";
 
@@ -16,28 +16,25 @@ const KanbanBoard = () => {
 
   const statuses = ["To Do", "In Progress", "Done"];
 
-  // ✅ Sorting Logic (Only Date & Name)
+  
   const sortTasks = (tasks) => {
-    return [...tasks].sort((a, b) => {
-      let valueA, valueB;
-
-      if (sortBy === "dueDate") {
-        valueA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
-        valueB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
-      } else {
-        valueA = a.name.toLowerCase();
-        valueB = b.name.toLowerCase();
-      }
-
+  return [...tasks].sort((a, b) => {
+    if (sortBy === "dueDate") {
+      const valueA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+      const valueB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
       return sortOrder === "asc" ? valueA - valueB : valueB - valueA;
-    });
-  };
+    }
+
+    return sortOrder === "asc"
+      ? a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+      : b.name.toLowerCase().localeCompare(a.name.toLowerCase());
+  });
+};
 
   return (
     <div className="max-w-full mx-auto overflow-x-auto">
       <TaskForm />
       <div className="flex justify-end p-2">
-        {/* ✅ Sorting Options (Inside Task Board) */}
         <select
           className="p-2 bg-gray-500 text-white rounded"
           value={sortBy}

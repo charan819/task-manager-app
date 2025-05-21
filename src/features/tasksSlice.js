@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { collection, addDoc, getDocs, updateDoc, doc, query, where, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../services/firebase";
 
-// ✅ Fetch Tasks from Firestore
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   const user = auth.currentUser;
   if (!user) return [];
@@ -15,28 +14,40 @@ export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async () => {
   }));
 });
 
-// ✅ Update Task Status
 export const updateTaskStatus = createAsyncThunk("tasks/updateTaskStatus", async ({ id, status }) => {
   const taskRef = doc(db, "tasks", id);
   await updateDoc(taskRef, { status });
   return { id, status };
 });
 
-// ✅ Add New Task (without priority)
 export const addTask = createAsyncThunk("tasks/addTask", async ({ name, dueDate }) => {
   const user = auth.currentUser;
   if (!user) throw new Error("No user logged in");
+
+  let parsedDueDate = null;
+  if (dueDate) {
+    const parsed = new Date(dueDate);
+    if (!isNaN(parsed.getTime())) {
+      parsedDueDate = parsed.toISOString();
+    } else {
+      console.warn("⚠️ Invalid dueDate input:", dueDate);
+    }
+  }
+
   const newTask = {
     name,
     status: "To Do",
     userId: user.uid,
-    dueDate: dueDate ? new Date(dueDate).toISOString() : null,
+    dueDate: parsedDueDate,
   };
+
+  console.log("🚨 newTask being sent to Firestore:", newTask); 
   const docRef = await addDoc(collection(db, "tasks"), newTask);
   return { id: docRef.id, ...newTask };
 });
 
-// ✅ Edit Task (without priority)
+
+
 export const editTask = createAsyncThunk("tasks/editTask", async ({ id, name, dueDate }) => {
   const taskRef = doc(db, "tasks", id);
   await updateDoc(taskRef, {
@@ -46,7 +57,6 @@ export const editTask = createAsyncThunk("tasks/editTask", async ({ id, name, du
   return { id, name, dueDate: dueDate ? new Date(dueDate).toISOString() : null };
 });
 
-// ✅ Delete Selected Tasks
 export const deleteSelectedTasks = createAsyncThunk("tasks/deleteSelectedTasks", async (_, { getState }) => {
   const { tasks } = getState().tasks;
   const selectedTasks = tasks.filter((task) => task.isSelected);
@@ -65,7 +75,6 @@ const tasksSlice = createSlice({
       if (task) task.isSelected = !task.isSelected;
     },
 
-    // ✅ Sorting Logic (only name & dueDate)
     setSortBy: (state, action) => {
       state.sortBy = action.payload;
     },
@@ -104,6 +113,5 @@ const tasksSlice = createSlice({
   },
 });
 
-// ✅ Export all necessary actions
 export const { toggleTaskSelection, setSortBy, toggleSortOrder } = tasksSlice.actions;
 export default tasksSlice.reducer;

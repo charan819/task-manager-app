@@ -20,10 +20,9 @@ const TaskEditModal = ({ isOpen, onClose }) => {
         }))
       );
     }
-  }, [isOpen, JSON.stringify("selectedTasks")]); // ✅ Fixed dependency array
+  }, [isOpen, JSON.stringify("selectedTasks")]); 
   
 
-  // ✅ Handle Input Change
   const handleChange = (index, field, value) => {
     setEditedTasks((prev) =>
       prev.map((task, i) =>
@@ -32,15 +31,14 @@ const TaskEditModal = ({ isOpen, onClose }) => {
     );
   };
 
-  // ✅ Save Edited Tasks
   const handleSave = () => {
     editedTasks.forEach((task) => {
       dispatch(editTask({ id: task.id, name: task.name, dueDate: task.dueDate }));
     });
-    onClose(); // Close modal after saving
+    onClose(); 
   };
 
-  // ✅ Prevent rendering if no tasks are selected
+
   if (!isOpen || selectedTasks.length === 0) return null;
 
   return (
@@ -51,7 +49,6 @@ const TaskEditModal = ({ isOpen, onClose }) => {
         {editedTasks.length > 0 ? (
           editedTasks.map((task, index) => (
             <div key={task.id} className="mb-4">
-              {/* ✅ Task Name Input */}
               <label className="block text-gray-300 text-sm mb-1">Task Name</label>
               <input
                 type="text"
@@ -61,7 +58,6 @@ const TaskEditModal = ({ isOpen, onClose }) => {
                 placeholder="Task Name"
               />
 
-              {/* ✅ Due Date Input */}
               <label className="block text-gray-300 text-sm mt-2 mb-1">Due Date</label>
               <input
                 type="date"

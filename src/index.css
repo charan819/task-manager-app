@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Enable Dark Mode */
+/*  Dark Mode */
 @layer base {
   :root {
     --bg-color: #ffffff;
@@ -20,22 +20,19 @@
     --task-bg: #1e1e1e;
     --input-bg: #222;
     --button-bg: #2563eb;
-    --task-text-color: #ffffff; /* Ensure bright text in dark mode */
+    --task-text-color: #ffffff; 
   }
 }
 
-/* Use CSS Variables */
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
 }
 
-/* Navbar */
 nav {
   background-color: var(--nav-bg);
 }
 
-/* Task Cards */
 .task-card {
   background-color: var(--task-bg);
   color: var(--text-color);
@@ -48,7 +45,6 @@ nav {
   color: var(--task-text-color);
 }
 
-/* Input Fields */
 input {
   background-color: var(--input-bg);
   color: var(--text-color);

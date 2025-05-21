@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../features/tasksSlice";
-import { auth } from "../services/firebase"; // Import Firebase auth
+import { auth } from "../services/firebase"; 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -17,7 +17,7 @@ const TaskForm = () => {
     dispatch(
       addTask({
         name: taskName,
-        dueDate: dueDate || null, // ✅ Ensure null is passed if no date is selected
+        dueDate: dueDate || null, 
         userId: user.uid,
       })
     );

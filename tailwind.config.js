@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"], // Ensure Tailwind scans all React files
+  darkMode: 'class',
+  content: ["./src/**/*.{js,jsx,ts,tsx}"], 
   theme: {
-    extend: {}, // You can customize Tailwind here if needed
+    extend: {}, 
   },
   plugins: [],
 };

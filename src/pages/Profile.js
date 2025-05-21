@@ -9,7 +9,6 @@ const Profile = () => {
 
   if (!user) return <p>Please login to view profile.</p>;
 
-  // ✅ Task Statistics
   const totalTasks = tasks.length;
   const toDoTasks = tasks.filter((task) => task.status === "To Do").length;
   const inProgressTasks = tasks.filter((task) => task.status === "In Progress").length;
@@ -19,11 +18,8 @@ const Profile = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-6 flex flex-col md:flex-row gap-8 items-start">
-      {/* <div><h1 className="text-2xl font-bold text-center mb-4">Profile</h1></div> */}
-  {/* ✅ Left Section: Task Statistics */}
 
   <div className="w-full md:w-1/2 p-6 rounded-lg shadow-md">
-    {/* Profile Section */}
     <div className="flex items-center space-x-4 border-b pb-4">
       <img 
         src={user.photoURL || "https://via.placeholder.com/64"} 
@@ -36,7 +32,6 @@ const Profile = () => {
       </div>
     </div>
 
-    {/* Task Statistics Section */}
     <div className="mt-4">
       <h2 className="text-lg font-semibold flex items-center gap-2">
         📊 Task Statistics
@@ -52,11 +47,9 @@ const Profile = () => {
     </div>
   </div>
 
-  {/* ✅ Right Section: Instructions */}
   <div className="w-full md:w-1/2 p-6 rounded-lg shadow-md">
     <p>This Task Manager helps you <strong>organize, track, and manage tasks efficiently</strong> with an intuitive Kanban board.</p>
 
-    {/* 🔹 Key Features */}
     <h2 className="text-xl font-semibold mt-4 mb-2">🚀 Features</h2>
     <ul className="list-disc pl-5 space-y-2">
       <li><strong>📋 Create & Manage Tasks:</strong> Easily add, edit, and delete tasks.</li>
@@ -67,7 +60,6 @@ const Profile = () => {
       <li><strong>🔄 Drag & Drop:</strong> Move tasks easily between columns.</li>
     </ul>
 
-    {/* 🔹 How to Use */}
     <h2 className="text-xl font-semibold mt-4 mb-2">📖 How to Use</h2>
     <ol className="list-decimal pl-5 space-y-2">
       <li>Click "Add Task" to create a new task.</li>

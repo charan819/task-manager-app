@@ -15,9 +15,8 @@ const TaskCard = ({ task }) => {
     }),
   }));
 
-  // ✅ Prevent errors when task is undefined
   if (!task || !task.id) {
-    return null; // Prevents rendering if task is missing
+    return null; 
   }
 
   const today = new Date().setHours(0, 0, 0, 0);
