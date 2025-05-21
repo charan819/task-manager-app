@@ -6,21 +6,21 @@ This app demonstrates clean architecture, modular component design, persistent s
 
 Features
 
---Google Authentication (via Firebase)
+- Google Authentication (via Firebase)
 
---Dark Mode / Light Mode toggle with localStorage persistence
+- Dark Mode / Light Mode toggle with localStorage persistence
 
---Task Sorting: by Name or Due Date, Ascending/Descending
+- Task Sorting: by Name or Due Date, Ascending/Descending
 
---Kanban-style task layout with 3 status columns: To Do, In Progress, Done
+- Kanban-style task layout with 3 status columns: To Do, In Progress, Done
 
---Modular Components: Navbar, Task Form, Columns, Redux Slices
+- Modular Components: Navbar, Task Form, Columns, Redux Slices
 
---Real-time data using Firebase Firestore
+- Real-time data using Firebase Firestore
 
---Responsive Design for desktop, tablet, and mobile
+- Responsive Design for desktop, tablet, and mobile
 
-🛠️ Technologies Used
+Technologies Used
 
 Tool/Library   -   Purpose
 
